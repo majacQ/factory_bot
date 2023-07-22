@@ -6,13 +6,13 @@ on:
 jobs:
   build:
     name: Ruby ${{ matrix.ruby }} / Rails ${{ matrix.rails }}
-    continue-on-error: ${{ matrix.allow_failure || false }}
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     strategy:
       fail-fast: false
       matrix:
         ruby:
           - jruby-9.2.16.0
-          - ruby-head
+          - truffleruby
           - "3.0"
           - "2.7"
           - "2.6"
@@ -29,40 +29,20 @@ jobs:
             rails: main
           - ruby: 2.6
             rails: main
+          - ruby: jruby-9.2.16.0
+            rails: main
           - ruby: 3.0
             rails: "5.0"
           - ruby: 3.0
             rails: "5.1"
           - ruby: 3.0
             rails: "5.2"
-          - ruby: ruby-head
+          - ruby: truffleruby
             rails: "5.0"
-          - ruby: ruby-head
+          - ruby: truffleruby
             rails: "5.1"
-          - ruby: ruby-head
+          - ruby: truffleruby
             rails: "5.2"
-        include:
-          # Failures permitted on latest ruby but useful for visibility
-          - allow_failure: true
-            ruby: ruby-head
-            rails: "6.0"
-          - allow_failure: true
-            ruby: ruby-head
-            rails: "6.1"
-
-          # Failures permitted on latest rails but useful for visibility
-          - allow_failure: true
-            ruby: jruby-9.2.16.0
-            rails: main
-          - allow_failure: true
-            ruby: ruby-head
-            rails: main
-          - allow_failure: true
-            ruby: "3.0"
-            rails: main
-          - allow_failure: true
-            ruby: "2.7"
-            rails: main
 
     runs-on: 'ubuntu-latest'
 
@@ -77,4 +57,17 @@ jobs:
       - name: Setup project
         run: bundle install
       - name: Run test
-        run: bundle exec rake
+        run: bundle exec rake all_specs
+
+  standard:
+    name: Run standard
+    runs-on: 'ubuntu-latest'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.0"
+      - name: Setup project
+        run: bundle install
+      - name: Run test
+        run: bundle exec rake standard

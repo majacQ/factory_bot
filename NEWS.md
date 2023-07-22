@@ -1,4 +1,15 @@
+⚠️ **Warning:** You are viewing this file on the `master` branch, which is no
+longer used and does not receive any updates. Please view [this file on the
+`main` branch](https://github.com/thoughtbot/factory_bot/blob/main/NEWS.md) for
+up-to-date information.
+
 # News
+
+## 6.2.0 (May 7, 2021)
+  * Added: support for Ruby 3.0
+  * Changed: Include factory or trait name in error messages for missing traits. d05a9a3c
+  * Changed: Switched from Travis CI to GitHub Actions
+  * Fixed: More Ruby 2.7 kwarg deprecation warnings
 
 ## 6.1.0 (July 8, 2020)
   * Added: public reader for the evaluation instance, helpful for building interrelated associations

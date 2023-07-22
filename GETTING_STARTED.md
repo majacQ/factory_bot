@@ -1,3 +1,8 @@
+⚠️ **Warning:** You are viewing this file on the `master` branch, which is no
+longer used and does not receive any updates. Please view [this file on the
+`main` branch](https://github.com/thoughtbot/factory_bot/blob/main/GETTING_STARTED.md)
+for up-to-date information.
+
 Getting Started
 ===============
 
@@ -592,7 +597,7 @@ Attribute overrides can be used to link associated objects:
 ```ruby
 FactoryBot.define do
   factory :author do
-    author_last_name { 'Taylor' }
+    name { 'Taylor' }
   end
 
   factory :post do
@@ -606,7 +611,7 @@ post = build(:post, author: eunji)
 
 ### Build strategies
 
-In factory\_bot 5, associations default to using the same build strategy as
+Starting with factory\_bot 5, associations default to using the same build strategy as
 their parent object:
 
 ```ruby
@@ -1010,6 +1015,15 @@ Without a block, the value will increment itself, starting at its initial value:
 ```ruby
 factory :post do
   sequence(:position)
+end
+```
+
+Please note, that the value for the sequence could be any Enumerable instance,
+as long as it responds to `#next`:
+
+```ruby
+factory :task do
+  sequence :priority, %i[low medium high urgent].cycle
 end
 ```
 
